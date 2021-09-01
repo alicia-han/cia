@@ -1,0 +1,3 @@
+auth:
+  datadog_token: "1111"
+  pingdom_token: "1111"
