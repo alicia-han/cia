@@ -3,13 +3,13 @@ package alert_manager
 import (
 	"center-information-alicia/utils/http"
 	"encoding/json"
-	"log"
+	log "github.com/sirupsen/logrus"
 )
 
 func (am * AlertManager) GetAlerts() error  {
 	code, infoBytes, err := http.GetWithAuth(am.Url,"")
 	if code < 200 || code >= 300 {
-		log.Println("code is:", code)
+		log.Warn("code is:", code)
 		return err
 	}
 
@@ -17,9 +17,6 @@ func (am * AlertManager) GetAlerts() error  {
 	if err != nil {
 		return err
 	}
-
-	log.Println(am.Alerts)
-	log.Println("length: ",len(am.Alerts))
 
 	return nil
 }

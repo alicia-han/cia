@@ -1,0 +1,10 @@
+---
+alert_managers:
+- url: "https://alertmanager.ornikar.com"
+  name: "fr-prod"
+- url: "https://alertmanager.onroad.to"
+  name: "es-prod"
+- url: "https://alertmanager.staging-fr-onroad.com"
+  name: "fr-staging"
+- url: "https://alertmanager.staging-es-onroad.com"
+  name: "es-staging"
