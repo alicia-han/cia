@@ -34,7 +34,8 @@ func getAlertManagerStr (configuration config.Configuration) (result []string) {
 			result = append(result, "Error Reaching "+am.Name)
 		}
 		for _, a := range alertManagerInstance.Alerts {
-			result = append (result, fmt.Sprintf("[%d] [%s] [%s]: ", Counter, am.Name,a.Status.State, a.Annotations.Description))
+			result = append (result, fmt.Sprintf("[<%d>](fg:red) [<%s>](fg:red) [<%s>](fg:red) %s",
+				Counter, am.Name, a.Status.State, a.Annotations.Description))
 			Counter ++
 		}
 		result = append(result, "---------------------------------------------")
