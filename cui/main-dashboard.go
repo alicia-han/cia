@@ -4,24 +4,10 @@ import (
 	"center-information-alicia/config"
 	ui "github.com/gizak/termui/v3"
 	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
-	"io/ioutil"
 	"time"
 )
 
-func CuiEntry(configPath string) {
-
-	f, err := ioutil.ReadFile(configPath)
-	if err != nil {
-		log.Fatal("Config File Opened Field: ", err)
-	}
-	var configuration config.Configuration
-	err = yaml.Unmarshal(f, &configuration)
-	if err != nil {
-		log.Fatal("unmarshal failed : ", err)
-	}
-
-	log.Debug("read configuration:", configuration)
+func CuiEntry(configuration config.Configuration) {
 
 	// Initialize UI
 	if err := ui.Init(); err != nil {

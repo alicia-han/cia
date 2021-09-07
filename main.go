@@ -1,9 +1,14 @@
 package main
 
 import (
+	"center-information-alicia/config"
 	"center-information-alicia/cui"
+	"center-information-alicia/server"
 	log "github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
+	"gopkg.in/yaml.v2"
+	"io"
+	"io/ioutil"
 	"os"
 )
 
@@ -17,8 +22,8 @@ func setLog(){
 	if err != nil {
 		log.Fatalf("Failed to create log file: ",err)
 	}
-	//log.SetOutput(io.MultiWriter(os.Stderr, logFile))
-	log.SetOutput(logFile)
+	log.SetOutput(io.MultiWriter(os.Stderr, logFile))
+	//log.SetOutput(logFile)
 	log.RegisterExitHandler(func() {
 		if logFile == nil {
 			return
@@ -26,7 +31,7 @@ func setLog(){
 		logFile.Close()
 	})
 
-	switch os.Getenv("CIA_LOG_LEVEL") {
+	switch os.Getenv("LOG_LEVEL") {
 	case "warning","WARN","WARNING", "Warning":
 		log.SetLevel(log.WarnLevel)
 	case "debug","DEBUG","Debug":
@@ -38,7 +43,21 @@ func setLog(){
 	}
 }
 
+func getConfig(configPath string) config.Configuration {
 
+	f, err := ioutil.ReadFile(configPath)
+	if err != nil {
+		log.Fatal("Config File Opened Field: ", err)
+	}
+	var configuration config.Configuration
+	err = yaml.Unmarshal(f, &configuration)
+	if err != nil {
+		log.Fatal("unmarshal failed : ", err)
+	}
+	log.Info("the configuration is : ", configuration)
+
+	return configuration
+}
 
 func main() {
 	setLog()
@@ -51,7 +70,15 @@ func main() {
 				Name: "cui",
 				Usage: "launch CUI for monitoring",
 				Action: func(c *cli.Context) error {
-					cui.CuiEntry(c.String("config"))
+					cui.CuiEntry(getConfig(c.String("config")))
+					return nil
+				},
+			},
+			{
+				Name: "server",
+				Usage: "launch server instance",
+				Action: func(c *cli.Context) error {
+					server.Start(getConfig(c.String("config")))
 					return nil
 				},
 			},

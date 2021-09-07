@@ -6,5 +6,8 @@ type AlterManager struct {
 }
 
 type Configuration struct {
+	Server struct{
+		Port string `yaml:"port"`
+	} `yaml:"server"`
 	AlertManagers [] AlterManager `yaml:"alert_managers"`
 }

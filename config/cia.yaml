@@ -1,4 +1,7 @@
 ---
+server:
+  port: "8081"
+
 alert_managers:
 - url: "https://alertmanager.ornikar.com"
   name: "fr-prod"
